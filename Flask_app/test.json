@@ -1,0 +1,13 @@
+{
+    "year": 2015,
+    "kilometers_driven": 50000,
+    "mileage": 18.5,
+    "engine": 1197,
+    "power": 83.1,
+    "seats": 5,
+    "location": "bangalore",
+    "fuel_type": "petrol",
+    "transmission": "manual",
+    "owner_type": "first",
+    "brand": "hyundai"
+}

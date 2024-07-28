@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="https://web-predict-car-prices.com/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Car Price Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            display: none;
+        }
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Car Price Predictor</h1>
+    <form id="carForm">
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" min="1998" max="2019" step="1" required>
+        
+        <label for="kilometers_driven">Kilometers Driven:</label>
+        <input type="number" id="kilometers_driven" name="kilometers_driven" min="171" max="6500000" step="1" required>
+        
+        <label for="mileage">Mileage (km/l):</label>
+        <input type="number" id="mileage" name="mileage" min="6" max="67.1" step="0.1" required>
+        
+        <label for="engine">Engine (cc):</label>
+        <input type="number" id="engine" name="engine" min="72" max="5998" step="1" required>
+        
+        <label for="power">Power (bhp):</label>
+        <input type="number" id="power" name="power" min="34.2" max="560.0" step="0.1" required>
+        
+        <label for="seats">Seats:</label>
+        <input type="number" id="seats" name="seats" min="5" max="10" step="1" required>
+        
+        <label for="location">Location:</label>
+        <select id="location" name="location" required>
+            <option value="">Select location</option>
+            <option value="ahmedabad">Ahmedabad</option>
+            <option value="bangalore">Bangalore</option>
+            <option value="chennai">Chennai</option>
+            <option value="coimbatore">Coimbatore</option>
+            <option value="delhi">Delhi</option>
+            <option value="hyderabad">Hyderabad</option>
+            <option value="jaipur">Jaipur</option>
+            <option value="kochi">Kochi</option>
+            <option value="kolkata">Kolkata</option>
+            <option value="mumbai">Mumbai</option>
+            <option value="pune">Pune</option>
+        </select>
+        
+        <label for="fuel_type">Fuel Type:</label>
+        <select id="fuel_type" name="fuel_type" required>
+            <option value="">Select fuel type</option>
+            <option value="CNG">CNG</option>
+            <option value="diesel">Diesel</option>
+            <option value="electric">Electric</option>
+            <option value="lpg">LPG</option>
+            <option value="petrol">Petrol</option>
+        </select>
+        
+        <label for="transmission">Transmission:</label>
+        <select id="transmission" name="transmission" required>
+            <option value="">Select transmission</option>
+            <option value="manual">Manual</option>
+            <option value="automatic">Automatic</option>
+        </select>
+        
+        <label for="owner_type">Owner Type:</label>
+        <select id="owner_type" name="owner_type" required>
+            <option value="">Select owner type</option>
+            <option value="first">First</option>
+            <option value="second">Second</option>
+            <option value="third">Third</option>
+            <option value="fourth_and_above">Fourth & Above</option>
+        </select>
+        
+        <label for="brand">Brand:</label>
+        <select id="brand" name="brand" required>
+            <option value="">Select brand</option>
+            <option value="ambassador">Ambassador</option>
+            <option value="audi">Audi</option>
+            <option value="bentley">Bentley</option>
+            <option value="bmw">BMW</option>
+            <option value="chevrolet">Chevrolet</option>
+            <option value="datsun">Datsun</option>
+            <option value="fiat">Fiat</option>
+            <option value="force">Force</option>
+            <option value="ford">Ford</option>
+            <option value="honda">Honda</option>
+            <option value="hyundai">Hyundai</option>
+            <option value="isuzu">Isuzu</option>
+            <option value="jaguar">Jaguar</option>
+            <option value="jeep">Jeep</option>
+            <option value="lamborghini">Lamborghini</option>
+            <option value="land_rover">Land Rover</option>
+            <option value="mahindra">Mahindra</option>
+            <option value="maruti">Maruti</option>
+            <option value="mercedes-benz">Mercedes-Benz</option>
+            <option value="mini">Mini</option>
+            <option value="mitsubishi">Mitsubishi</option>
+            <option value="nissan">Nissan</option>
+            <option value="porsche">Porsche</option>
+            <option value="renault">Renault</option>
+            <option value="skoda">Skoda</option>
+            <option value="smart">Smart</option>
+            <option value="tata">Tata</option>
+            <option value="toyota">Toyota</option>
+            <option value="volkswagen">Volkswagen</option>
+            <option value="volvo">Volvo</option>
+        </select>
+        
+        <button type="submit">Predict Price</button>
+    </form>
+    
+    <div class="loading" id="loading"></div>
+    <div id="result"></div>
+    <script>
+        document.getElementById('carForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+        
+            const formData = new FormData(event.target);
+        
+            // Convert FormData to a JSON object
+            const data = {
+                year: parseInt(formData.get('year')),
+                kilometers_driven: parseInt(formData.get('kilometers_driven')),
+                mileage: parseFloat(formData.get('mileage')),
+                engine: parseInt(formData.get('engine')),
+                power: parseFloat(formData.get('power')),
+                seats: parseInt(formData.get('seats')),
+                location: formData.get('location'),
+                fuel_type: formData.get('fuel_type'),
+                transmission: formData.get('transmission'),
+                owner_type: formData.get('owner_type'),
+                brand: formData.get('brand')
+            };
+        
+            document.getElementById('loading').style.display = 'inline-block'; // Show loading spinner
+        
+            fetch('http://127.0.0.1:5000/predict', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                document.getElementById('loading').style.display = 'none'; // Hide loading spinner
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(result => {
+                document.getElementById('result').innerText = `Predicted Price: $${result.predicted_price}`; // Adjust based on your API response
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none'; // Hide loading spinner
+                document.getElementById('result').innerText = `Error: ${error.message}`;
+            });
+        });
+        </script>
+        
+</body>
+</html>
